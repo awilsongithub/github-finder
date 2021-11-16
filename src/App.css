@@ -112,7 +112,8 @@ img {
 /* Cards */
 .card {
   padding: 1rem;
-  border: #ccc 1px dotted;
+  border: rgb(210, 208, 208) 1px solid;
+  border-radius: 4px;
   margin: 0.7rem 0;
 }
 
