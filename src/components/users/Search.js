@@ -1,70 +1,55 @@
-import React, { Component } from "react";
+import React, { useState, useContext } from "react";
 import PropTypes from "prop-types";
+import GithubContext from "../../context/github/githubContext";
 
-export class Search extends Component {
-	state = {
-		text: "",
-	};
+const Search = ({ showAlert }) => {
+	const { users, clearUsers, searchUsers } = useContext(GithubContext);
 
-	static propTypes = {
-		searchUsers: PropTypes.func.isRequired,
-		clearUsers: PropTypes.func.isRequired,
-		showClearBtn: PropTypes.bool.isRequired,
-		setAlert: PropTypes.func.isRequired,
-	};
+	const [text, setText] = useState("");
 
-	onChange = (e) => {
-		this.setState({
-			[e.target.name]: e.target.value,
-		});
-	};
+	const onChange = (e) => setText(e.target.value);
 
-	onSubmit = async (e) => {
+	const onSubmit = async (e) => {
 		e.preventDefault();
-		if (!this.state.text) {
-			this.props.setAlert("Please enter search text", "danger");
+		if (!text) {
+			showAlert("Please enter search text", "danger");
 		} else {
-			this.props.searchUsers(this.state.text);
-			this.setState({ text: "" });
+			searchUsers(text);
+			setText("");
 		}
 	};
 
-	render() {
-		const { showClearBtn, clearUsers } = this.props;
+	return (
+		<div>
+			<form onSubmit={onSubmit} className='form'>
+				<input
+					type='text'
+					name='text'
+					placeholder='Search Users....'
+					value={text}
+					onChange={onChange}
+				/>
+				<input
+					type='submit'
+					value='Search'
+					className='btn btn-dark btn-block'
+				/>
+			</form>
 
-		return (
-			<div>
-				<form onSubmit={this.onSubmit} className='form'>
-					<input
-						type='text'
-						name='text'
-						placeholder='Search Users....'
-						value={this.state.text}
-						onChange={this.onChange}
-					/>
-					{this.state.textWarning && (
-						<p style={{ color: "red" }}>
-							Please enter some search text
-						</p>
-					)}
-					<input
-						type='submit'
-						value='Search'
-						className='btn btn-dark btn-block'
-					/>
-				</form>
+			{users.length > 0 && (
+				<button
+					className='btn btn-light btn-block'
+					onClick={clearUsers}
+				>
+					Clear Users
+				</button>
+			)}
+		</div>
+	);
+};
 
-				{showClearBtn && (
-					<button
-						className='btn btn-light btn-block'
-						onClick={clearUsers}
-					>
-						Clear Users
-					</button>
-				)}
-			</div>
-		);
-	}
-}
+Search.propTypes = {
+	showAlert: PropTypes.func.isRequired,
+};
 
 export default Search;
