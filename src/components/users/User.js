@@ -1,6 +1,5 @@
 import React, { useEffect, Fragment, useContext } from "react";
 import { useParams, Link } from "react-router-dom";
-import PropTypes from "prop-types";
 import Spinner from "../layout/Spinner";
 import Repos from "../repos/Repos";
 import GithubContext from "../../context/github/githubContext";
@@ -17,8 +16,6 @@ const User = () => {
 	if (loading) {
 		return <Spinner />;
 	} else {
-		console.log("INSIDE RENDER ELSE IN USER", user);
-
 		const {
 			name,
 			avatar_url,
@@ -49,15 +46,7 @@ const User = () => {
 				)}
 				<div className='card grid-2'>
 					<div>
-						<img
-							src={avatar_url}
-							alt=''
-							style={{
-								width: "200px",
-								border: "1px solid lightgrey",
-								borderRadius: "4px",
-							}}
-						/>
+						<img src={avatar_url} alt='' style={userImgStyles} />
 						<h1>{name}</h1>
 						<p>Location: {location}</p>
 					</div>
@@ -113,6 +102,12 @@ const User = () => {
 			</Fragment>
 		);
 	}
+};
+
+const userImgStyles = {
+	width: "200px",
+	border: "1px solid lightgrey",
+	borderRadius: "4px",
 };
 
 export default User;

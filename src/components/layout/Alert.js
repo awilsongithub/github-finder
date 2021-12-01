@@ -1,7 +1,9 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React, { useContext } from "react";
+import AlertContext from "../../context/alert/alertContext";
 
-const Alert = ({ alert }) => {
+const Alert = () => {
+	const { alert } = useContext(AlertContext);
+
 	if (alert) {
 		return (
 			<div className={`alert alert-${alert.type}`}>
@@ -11,10 +13,6 @@ const Alert = ({ alert }) => {
 	} else {
 		return null;
 	}
-};
-
-Alert.propTypes = {
-	alert: PropTypes.any
 };
 
 export default Alert;
